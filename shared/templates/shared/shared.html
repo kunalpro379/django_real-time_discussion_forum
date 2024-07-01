@@ -1,0 +1,141 @@
+{% extends "base.html" %} {% load static %} {% block title %}
+<title>Room: {{ room_name }} | Collab Code Edit</title>
+<link rel="stylesheet" href="{% static 'chat.css' %}" />
+<link rel="stylesheet" href="{% static 'shared.css' %}" />
+{% endblock %} {% block body %}
+<main class="main">
+  <div class="left-part">
+    <div class="card-container">
+      <div class="card">
+        <div
+          class="card-body d-flex justify-content-between align-items-center"
+        >
+          <div class="card-body">
+            <h5 class="card-title">Welcome to ColabX</h5>
+          </div>
+          <div class="buttons">
+            <button id="screenShareBtn" class="btn btn-primary mx-2">
+              <i class="fas fa-desktop"></i>
+            </button>
+            <button id="shareBtn" class="btn btn-secondary mx-2">
+              <i class="fas fa-share-alt"></i>
+            </button>
+            <button id="whiteboardBtn" class="btn btn-success mx-2">
+              <i class="fas fa-chalkboard"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="left">
+      <section class="code-editor">
+        <textarea placeholder="Write your code here..." class="text"></textarea>
+      </section>
+    </div>
+    <div class="users">
+      <button id="usersJoined">
+        <i class="fas fa-user"></i>
+      </button>
+      <div class="card-cont" id="personCard">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">User Profile</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="resizer" data-direction="horizontal"></div>
+  <div class="right-part">
+    <div class="chat-section">
+      <section>{% include "chats/chat_section.html" %}</section>
+    </div>
+    <div class="resizer" data-direction="vertical"></div>
+    <section class="container">
+      <div class="fixed-options">
+        <div class="menu-card" id="menuCard">
+          <ul class="menu-options">
+            <li class="option tool selected" id="rectangle">
+              <button><i class="fas fa-square"></i></button>
+            </li>
+            <li class="option tool" id="triangle">
+              <button><i class="fas fa-triangle"></i></button>
+            </li>
+            <li class="option tool" id="circle">
+              <button><i class="fas fa-circle"></i></button>
+            </li>
+            <li class="button">
+              <button id="fillColor">Fill Color</button>
+            </li>
+            <li class="option tool" id="brush">
+              <button><i class="fas fa-paint-brush"></i></button>
+            </li>
+            <li class="option tool" id="eraser">
+              <button><i class="fas fa-eraser"></i></button>
+            </li>
+            <li
+              class="option color-option selected"
+              style="background-color: #fff"
+            ></li>
+            <li class="option color-option" style="background-color: #000"></li>
+            <li
+              class="option color-option"
+              style="background-color: #e0202e"
+            ></li>
+            <li
+              class="option color-option"
+              style="background-color: #6dd400"
+            ></li>
+            <li class="option">
+              <input type="color" id="colorPicker" value="#4e4e4e" />
+            </li>
+          </ul>
+          <div class="slider">
+            <li class="option">
+              <input type="range" id="sizeSlider" min="1" max="30" value="5" />
+            </li>
+          </div>
+          <button id="clearCanvasBtn">Clear Canvas</button>
+        </div>
+      </div>
+      <div class="fixed-card">
+        <div class="tools">
+          <button class="tool-button" id="pan">
+            <i class="fas fa-arrows-alt"></i>
+          </button>
+          <button class="tool-button" id="hand">
+            <i class="fas fa-hand-paper"></i>
+          </button>
+          <button class="tool-button" id="arrow">
+            <i class="fas fa-long-arrow-alt-right"></i>
+          </button>
+          <button class="tool-button" id="zoomIn">
+            <i class="fas fa-search-plus"></i>
+          </button>
+          <button class="tool-button" id="zoomOut">
+            <i class="fas fa-search-minus"></i>
+          </button>
+        </div>
+      </div>
+      <canvas id="drawingCanvas" class="canvas"></canvas>
+    </section>
+  </div>
+</main>
+<style>
+  .msgimg-container {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .msgimg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>
+<script src="{% static 'shared.js' %}"></script>
+<script src="{% static 'resizer.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+{% endblock %}

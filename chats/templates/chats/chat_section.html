@@ -1,0 +1,79 @@
+{% load static %} {%block content%}
+<div class="chat-top">
+  <div class="msgimg-container">
+    {% comment %} <img src="{% static 'kunal.png' %}" class="msgimg" />
+    {% endcomment %}
+    <img src="static/kunal.png" class="msgimg" />
+  </div>
+  <div class="active">
+    <p>{{user_name}}</p>
+  </div>
+  ChatRoom | {{room_name}}
+</div>
+{% comment %}
+<div class="chat-section">
+  {% endcomment %}
+  <div class="chat">
+    <div class="chats">
+      <div class="received-chats">
+        <div class="received-chats-img">
+          <img src="{% static 'user2.png' %}" />
+        </div>
+        <div class="received-msg">
+          <div class="received-msg-inbox">
+            <p>hello bhai, im working on the project</p>
+            <span class="time">18:06 PM | July 24</span>
+          </div>
+        </div>
+      </div>
+      <div class="outgoing-chats">
+        <div class="outgoing-chats-img">
+          {% comment %} <img src="{% static 'user1.png' %}" /> {% endcomment %}
+          <img src="static/user-avatar.png" />
+        </div>
+        <div class="outgoing-msg">
+          <div class="outgoing-chats-msg">
+            <p class="multi-msg">yes bro, keep it up ur work</p>
+            <p class="multi-msg">errors aa rahe bhai boht</p>
+            <span class="time">18:30 PM | July 24</span>
+          </div>
+        </div>
+      </div>
+      <div class="received-chats">
+        <div class="received-chats-img">
+          {% comment %} <img src="{% static 'user2.png' %}" /> {% endcomment %}
+          <img src="static/user-avatar.png" />
+        </div>
+        <div class="received-msg">
+          <div class="received-msg-inbox">
+            <p class="single-msg">errors toh ate rehte hai, tu apna kaam kar</p>
+            <span class="time">18:31 PM | July 24</span>
+          </div>
+        </div>
+      </div>
+      <div class="outgoing-chats">
+        <div class="outgoing-chats-img">
+          {% comment %} <img src="{% static 'user1.png' %}" /> {% endcomment %}
+          <img src="static/user-avatar.png" />
+        </div>
+        <div class="outgoing-msg">
+          <div class="outgoing-chats-msg">
+            <p>ha bhai,</p>
+            <span class="time">18:34 PM | July 24</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="input-group">
+    <input type="text" class="form-control" placeholder="Write message..." />
+    <span class="input-group-text send-icon">
+      <i class="bi bi-send"></i>
+    </span>
+  </div>
+  {% comment %}
+</div>
+{% endcomment %} {%endblock%}
+
+
+{% endcomment %}
