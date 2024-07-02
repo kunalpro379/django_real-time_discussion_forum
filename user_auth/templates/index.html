@@ -34,8 +34,9 @@
       </button>
     </div>
     <br />
-    <a href="{% url 'auth:logout' %}" class="text-primary">Logout</a>
-    {% else %}
+    {% comment %}
+    <a href="{% url 'room_auth:logout' %}" class="text-primary">Logout</a>
+    {%endcomment %} {% else %}
     <p class="lead">You must login to access the chat room.</p>
     <a class="strong" href="{% url 'auth:login' %}">Login</a>
     <br />

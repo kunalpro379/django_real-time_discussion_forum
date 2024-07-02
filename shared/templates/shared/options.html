@@ -68,11 +68,13 @@
   function joinRoom() {
     let roomname = document.getElementById("room").value;
     let password = document.getElementById("password").value;
-    window.location.href = `/code/${roomname}/?password=${password}`;
+    window.location.href = `/code/${roomname}/`;
+    window.location.href = `/chat/${roomname}/`;
   }
 
   function createRoom() {
     window.location.href = "/code/create/";
+    window.location.href = "/chat/create/";
   }
 </script>
 

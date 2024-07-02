@@ -3,6 +3,8 @@
 <link rel="stylesheet" href="{% static 'chat.css' %}" />
 <link rel="stylesheet" href="{% static 'shared.css' %}" />
 {% endblock %} {% block body %}
+
+
 <main class="main">
   <div class="left-part">
     <div class="card-container">
@@ -47,9 +49,8 @@
   </div>
   <div class="resizer" data-direction="horizontal"></div>
   <div class="right-part">
-    <div class="chat-section">
-      <section>{% include "chats/chat_section.html" %}</section>
-    </div>
+    <section>{% include "chats/chat_section.html" %}</section>
+
     <div class="resizer" data-direction="vertical"></div>
     <section class="container">
       <div class="fixed-options">
@@ -135,6 +136,8 @@
     display: block;
   }
 </style>
+<script type="text/javascript" src="{% static 'pass.js' %}"></script>
+<script type="text/javascript" src="{% static 'chat.js' %}"></script>
 <script src="{% static 'shared.js' %}"></script>
 <script src="{% static 'resizer.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>

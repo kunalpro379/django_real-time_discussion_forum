@@ -3,6 +3,7 @@
 {% endblock title %} {% block body %}
 <h2>Join an Existing Room</h2>
 <form action="{% url 'shared:join_room' %}" method="post">
+
   {% csrf_token %}
   <label for="room_name">Room Name:</label>
   <input type="text" id="room_name" name="room_name" required /><br /><br />

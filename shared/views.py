@@ -8,9 +8,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-@login_required
-def index(request):
-    return render(request, 'index.html', {'user': request.user})
 
 @login_required
 def create_room(request):
@@ -19,12 +16,12 @@ def create_room(request):
         room_password = request.POST.get('room_password')
 
         if len(room_password) < 3:
-            return render(request, 'create_room.html', {
+            return render(request, 'shared/create_room.html', {
                 'error_message': "Password length must be greater than 3 characters"
             })
 
         if is_room_occupied(room_name):
-            return render(request, 'create_room.html', {
+            return render(request, 'shared/create_room.html', {
                 'error_message': "Room is already occupied!"
             })
 
@@ -39,7 +36,7 @@ def create_room(request):
 
         return HttpResponseRedirect(f'/code/{room_name}/')
 
-    return render(request, 'create_room.html')
+    return render(request, 'shared/create_room.html')
 
 @login_required
 def join_room(request):
@@ -55,7 +52,7 @@ def join_room(request):
 
             if not check_password(room_password, chat_room.room_password):
                 logger.warning("Incorrect password provided")
-                return render(request, 'join_room.html', {
+                return render(request, 'shared/join_room.html', {
                     'error_message': "Incorrect password!"
                 })
 
@@ -66,11 +63,11 @@ def join_room(request):
             return HttpResponseRedirect(f'/code/{room_name}/')
         except ChatRoom.DoesNotExist:
             logger.error(f"Room {room_name} does not exist")
-            return render(request, 'join_room.html', {
+            return render(request, 'shared/join_room.html', {
                 'error_message': "Room does not exist!"
             })
 
-    return render(request, 'join_room.html')
+    return render(request, 'shared/join_room.html')
 
 
 @login_required
@@ -118,4 +115,4 @@ def room_auth(request, room_name):
 
 @login_required
 def index(request):
-    return render(request, 'index.html', {'user': request.user})
+    return render(request, 'options.html', {'user': request.user})

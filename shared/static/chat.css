@@ -69,17 +69,30 @@ img {
     }
 /* Styling the input field */
     .input-group {
-        margin-right: 20px;
-        margin-left: 30px;
-        outline: none !important;
-        margin-bottom: auto;
-        border-radius: 20px;
-        width: 90% !important;
-        background-color: #fff;
-        position: relative;
+        height: 40px;
+        width: 60%;
+        border-radius: 40px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #ffffff;
+            position: sticky;
+            bottom: 0;
+          
+    }
+    .chat-bottom{
         display: flex;
-        flex-wrap: wrap;
-        height:30px;
+        flex-direction: row;
+    }
+    .chat-feat{
+        height: 40px;
+        border-radius: 40px;
+        width: 70%;
+            display: flex;
+            align-items: center;
+            padding-right: 10px;
+            position: sticky;
+            bottom: 0;
     }
     .main-chats{
         width: 100%;
@@ -248,24 +261,24 @@ margin-bottom: 4px;
 }
 
 
-.chat{
-    display: flex;
-    width: 98%;
-    margin-top: 10px;
-    margin-bottom: 5px;
+
+.chatting{
+    margin-left: 10px;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 0;
+    position: abosolute;
     flex-direction: column;
-height: 100%;
-    border-radius: 5px;
-    margin-left:6px;
-    color: #fc0000;
-    margin-left: 8%;
-    display: flex;
-    width: 80%;
+    max-width: 98%;
+    background-color: #4e4e4e;
+    height: 100%;
 
-    
+
+    width: 100%;
+max-height: calc(100%);
+/* flex: 1; */
 }
-
-
 
 
 
@@ -292,7 +305,15 @@ height: 100%;
 
 }
 
+.chat {
+    margin-left: 8%;
+    width: 80%;
+    height: 100px;
+    background-color: #d6ed00;
 
+    
+  }
+  
   .chat-left {
     flex: 0 0 30%;
     padding: 10px;
@@ -301,15 +322,16 @@ height: 100%;
   }
   
   .chats {
-    display: flex;
-    margin-left: 100px;
-    flex: 1;
-    background-color: #ff0000;
-    padding: 0px;
-    max-height: 450px; /* Set the desired max height */
-    overflow-y: auto; /* Enable vertical scrolling */
-    width: 98%;
-  }
+    height: calc(100% - 50px); /* Adjust height to account for the margins */
+margin-top:5px;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 0;
+    position: abosolute;
+    flex-direction: column;
+    max-width: 98%;background-color: #381b1b;
+}
   
   .raise-hand-button {
     display: flex;
@@ -333,13 +355,57 @@ height: 100%;
   .raise-hand-button i {
     font-size: 20px;
   }
-  
-  .input-group {
-    display: flex;
-    align-items: center;
-    padding: 10px;
+  .one{
+    border-radius: 30px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    margin-left: 20px;
+    margin-top:10px;
+    margin-right:20px;
+    margin-bottom:10px;
+    height: calc(100% - 70px); /* Adjust height to account for the margins */
+    background-color: #3f1d1d;
   }
-  
+  .two{
+    padding-top: 10px;
+    padding-left:10px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    border-radius: 30px;
+    height: 100%;
+margin: 5px;
+    background-color: #4b2323;  }
+  .chatbox{
+    border-radius: 30px;
+    background-color: #542727;
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    height: calc(100% - 5px);
+    
+  }
+ 
+  .three{
+    margin-top:2px;
+    margin-bottom: 3px;
+padding-right: 5px;
+padding-left: 15px;
+background-color: #522727;
+border-radius: 30px;
+height: calc(100% - 5px);
+
+  }
+  .four{
+    margin-top:2px;
+    margin-bottom: 3px;
+    padding-right: 5px;
+    padding-left: 15px;
+    background-color: #623030;
+    border-radius: 30px;
+    height: calc(100% - 5px);
+
+
+  }
   .input-group .form-control {
     flex: 1;
     padding: 10px;
@@ -357,3 +423,48 @@ height: 100%;
     background-color: #0056b3;
   }
   
+
+
+
+  .buttonscontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .circular-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 10px;
+    font-size: 20px;
+    background-color: #007bff; /* Default background color */
+    color: white;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .circularbutton:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
+  }
+  
+  .sendaudio {
+    background-color: #007bff; /* Customize background color for audio button */
+  }
+  
+  .sendphoto {
+    background-color: #28a745; /* Customize background color for photo button */
+  }
+  
+  .handraise {
+    background-color: #ffc107; /* Customize background color for hand raise button */
+  }
+  .send-message{
+    color: white;
+  }

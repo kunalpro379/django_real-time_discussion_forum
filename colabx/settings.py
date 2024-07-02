@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-from pathlib import Path
 import os
 from django.core.management.utils import get_random_secret_key
 
@@ -34,6 +33,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+        'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -131,7 +132,10 @@ ASGI_APPLICATION = 'colabx.asgi.application'
 LOGIN_URL = '/auth/login'
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis-server-name", 6379)],
+         }
     }
 }
 

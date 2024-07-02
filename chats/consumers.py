@@ -1,27 +1,25 @@
 import json
 
 from channels.db import database_sync_to_async
-from shared.models import ChatUser, ChatRoom, UserAndRoom
+from shared.models import ChatRoom, ChatUser, UserAndRoom
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 class ChatRoomConsumer(AsyncWebsocketConsumer):
-    #handingling the websocket connection s
-
     async def connect(self): 
-        self.user = self.scope['user'] #get the current user from websocket scope
-        self.room_name=self.scope['url_route']['kwargs']['room_name']
-        #extract the room name from the url
-        self.room_group_name='chat_%s' % self.room_name
-        #construct channelgroup name based on room name
-        self.chat_user=await self.get_chat_user()
-        self.chat_room=await self.get_chat_room()
+        self.user = self.scope['user']
+        self.room_name = self.scope['url_route']['kwargs']['room_name']
+        self.room_group_name = f'chat_{self.room_name}'
+        self.chat_user = await self.get_chat_user()
+        self.chat_room = await self.get_chat_room()
 
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
-        )#adding current schannel websocket connection to the channel group
-        # send the message to the room group
-        await self.channel_layer.group_add(
+        )
+
+        print(f"User {self.user} connected to room {self.room_name}")
+
+        await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'connect_message',
@@ -29,16 +27,20 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
             }
         )
         await self.accept()
-    #accepts the websocket connections
 
-    @database_sync_to_async   #decorator
+    @database_sync_to_async
     def get_chat_user(self):
         return ChatUser.objects.get(chat_user=self.scope['user'])
 
+    @database_sync_to_async
+    def get_chat_room(self):
+        return ChatRoom.objects.get(room_name=self.room_name)
+
     async def disconnect(self, close_code):
-        print("recieved exit from user" , self.user.username)
         await self.remove_chat_user()
-        print("removed user from chat room")
+
+        print(f"User {self.user} disconnected from room {self.room_name}")
+
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -52,17 +54,15 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
         )
 
     @database_sync_to_async
-    def get_chat_room(self):
-        return ChatRoom.objects.get(room_name=self.room_name)        
-    @database_sync_to_async
     def remove_chat_user(self):
-        self.chat_user.chat_rooms.remove(self.chat_room)    
+        self.chat_user.chat_rooms.remove(self.chat_room)
         self.chat_user.save()
 
     async def receive(self, text_data):
-        text_data_json=json.loads(text_data)
-        if text_data_json['type']=='chat':
-            text=text_data_json['message']
+        text_data_json = json.loads(text_data)
+        print(f"Received message: {text_data_json}")
+        if text_data_json['type'] == 'chat':
+            text = text_data_json['message']
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
@@ -71,8 +71,7 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
                     'username': self.user.username
                 }
             )
-            
-        elif text_data_json['type']=='canvas':
+        elif text_data_json['type'] == 'canvas':
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
@@ -81,7 +80,7 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
                     'username': self.user.username,
                 }
             )
-        elif text_data_json['type']=='output':
+        elif text_data_json['type'] == 'output':
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
@@ -91,8 +90,8 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
                 }
             )
         else: 
-            text=text_data_json['text']
-            sync =True if 'sync' in text_data_json else False
+            text = text_data_json['text']
+            sync = 'sync' in text_data_json
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
@@ -102,22 +101,21 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
                     'sync': sync
                 }
             )
+
     async def chatroom_message(self, event):
-        text=event['text']
-        username=event['username']
-        sync =event['sync']
-        print("got some text\n", text)
-        if sync:
-            print("it is a sync request")
+        text = event['message']
+        username = event['username']
+        print(f"Chatroom message: {text} from {username}")
         await self.send(text_data=json.dumps({
-            'type': 'editor',
-            'text': text,
-            'username': username,
-            'sync': sync
+            'type': 'chat',
+            'message': text,
+            'username': username
         }))
+
     async def canvas_information(self, event):
-        data=event['data']
-        username=event['username']
+        data = event['data']
+        username = event['username']
+        print(f"Canvas information: {data} from {username}")
         await self.send(text_data=json.dumps({
             'type': 'canvas',
             'data': data,
@@ -125,8 +123,9 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
         }))
 
     async def code_output(self, event):
-        data=event['data']
-        username=event['username']
+        data = event['data']
+        username = event['username']
+        print(f"Code output: {data} from {username}")
         await self.send(text_data=json.dumps({
             'type': 'output',
             'data': data,
@@ -134,31 +133,29 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
         }))
 
     async def text_change(self, event):
-        text=event['text']
-        username=event['username']
-        sync=event['sync']
-        print("got some text\n", text)
-        if sync:
-            print("it is a sync request")
+        text = event['text']
+        username = event['username']
+        sync = event['sync']
+        print(f"Text change: {text} from {username} with sync: {sync}")
         await self.send(text_data=json.dumps({
             'type': 'editor',
             'text': text,
             'username': username,
             'sync': sync
-        })) 
+        }))
+
+    async def connect_message(self, event):
+        print(f"Connect message: {event['message']}")
+        await self.send(text_data=json.dumps({
+            'type': 'chat',
+            'message': event['message'],
+            'username': 'System'
+        }))
 
     async def disconnect_message(self, event):
-        message=event['message']
+        print(f"Disconnect message: {event['message']}")
         await self.send(text_data=json.dumps({
             'type': 'chat',
-            'message': message
+            'message': event['message'],
+            'username': 'System'
         }))
-
-    async def connect_message(self, event): 
-        message=event['message']
-        await self.send(text_data=json.dumps({
-            'type': 'chat',
-            'message': message
-        }))
-
-    pass
